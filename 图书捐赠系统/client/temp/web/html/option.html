@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捐赠记录</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/public.css">
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/echarts.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <!-- 先进行token的校验 -->
+    <script src="../js/token.js"></script>
+</head>
+<style>
+    #dropd {
+        margin: 13px -61px 0px 0px !important;
+    }
+li{
+    list-style: none;
+}
+    .center_2 {
+        width: 50px;
+        height: 50px;
+        border: 2px solid aqua;
+        font-size: 40px;
+        text-align: center;
+        line-height: 50px;
+    }
+    .col-2 {
+            width: 19.666667%;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination>li {
+            width: 40px;
+            height: 40px;
+            border: 1px solid;
+            font-size: 25px;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        .pagination>li>a {
+            text-decoration: none;
+        }
+
+        #pagination {
+            width: 100%;
+        }
+
+        .left {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .right {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .center_2 {
+            width: 50px;
+            height: 50px;
+            border: 2px solid aqua;
+            font-size: 40px;
+            text-align: center;
+            line-height: 50px;
+        }
+        .pagination>li.active{
+            border: 2px solid aqua;
+        }
+        a{
+        text-decoration: none;
+        color: #A3C2D5;
+    }
+    tr{
+        height: 45px;
+        line-height: 45px;
+    }
+    ol>li.acting{
+        background-color: #E9ECEF;
+    }
+    .pagination_1 {
+            display: flex;
+            justify-content: center;
+        }
+    .pagination_1>li.active{
+            border: 2px solid aqua;
+        }
+        .pagination_1>li {
+            width: 40px;
+            height: 40px;
+            border: 1px solid;
+            font-size: 25px;
+            text-align: center;
+            line-height: 40px;
+        }
+        .pagination_1>li>a {
+            text-decoration: none;
+        }
+        #pagination_1 {
+            width: 100%;
+        }
+        
+        .pagination_2 {
+            display: flex;
+            justify-content: center;
+        }
+    .pagination_2>li.active{
+            border: 2px solid aqua;
+        }
+        .pagination_2>li {
+            width: 40px;
+            height: 40px;
+            border: 1px solid;
+            font-size: 25px;
+            text-align: center;
+            line-height: 40px;
+        }
+        .pagination_2>li>a {
+            text-decoration: none;
+        }
+        #pagination_2 {
+            width: 100%;
+        }
+</style>
+
+<body>
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-secondary" style="width: 280px;height: 100%;float: left;">
+        <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-book"
+                viewBox="0 0 16 16">
+                <path
+                    d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z" />
+            </svg>
+            <span class="fs-5">&nbsp;校园图书捐赠管理系统</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="./home.html" class="nav-link text-white" aria-current="page">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-bank2" viewBox="0 0 16 16">
+                        <path
+                            d="M8.277.084a.5.5 0 0 0-.554 0l-7.5 5A.5.5 0 0 0 .5 6h1.875v7H1.5a.5.5 0 0 0 0 1h13a.5.5 0 1 0 0-1h-.875V6H15.5a.5.5 0 0 0 .277-.916l-7.5-5zM12.375 6v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zM8 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM.5 15a.5.5 0 0 0 0 1h15a.5.5 0 1 0 0-1H.5z" />
+                    </svg>&emsp;
+                    <span>我的主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="./student.html" class="nav-link text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-journal" viewBox="0 0 16 16">
+                        <path
+                            d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
+                        <path
+                            d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
+                    </svg>&emsp;
+                    <span>用户信息</span>
+                </a>
+            </li>
+            <li>
+                <a href="./clazz.html" class="nav-link text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-shop" viewBox="0 0 16 16">
+                        <path
+                            d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z" />
+                    </svg>&emsp;
+                    <span>图书捐赠</span>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link active" data-bs-toggle="collapse" href="#collapseThree"  id="lis">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path
+                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd"
+                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                    </svg>&emsp;
+                    <span>捐赠记录</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16" id="svg">
+                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16" style="display: none;" id="svg1">
+                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                      </svg>
+                </a>
+                <ol id="collapseThree" class="collapse" data-bs-parent="#accordion">
+                    <li class="acting"><a class="dropdown-item" href="#">已通过</a></li>
+                    <li><a class="dropdown-item" href="#">待审核</a></li>
+                    <li><a class="dropdown-item" href="#">未通过</a></li>
+                </ol>
+            </li>
+        </ul>
+    </div>
+    <div class="b-example-divider" style="width:calc(100% - 280px);height: 100%;float: right;">
+        <!-- 头部 -->
+        <div class="header" style="display: flex; justify-content: space-between; background-color: #6C757D;">
+            <span class="headerLeft">2022-08-10 16:42:11</span>
+            <div style="display: flex; align-items: center; padding-right: 100px;">
+                <span style="margin-right: 20px;">欢迎你! <span id="adminname">刘耀清</span> </span>
+                <span class="avatar dropdown-center">
+                    <img src="https://img2.baidu.com/it/u=1011519248,3078934487&fm=253&app=138&size=w931&n=0&f=PNG&fmt=auto?sec=1677776400&t=882b5bd921128eb18ee8ab143b9c92c6"
+                        alt="" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ul class="dropdown-menu dropdown-menu-dark" id="dropd">
+                        <li data-bs-toggle="modal" data-bs-target="#exampleModal"><a class="dropdown-item"
+                                href="#">修改个人资料</a></li>
+                        <li><a class="dropdown-item" href="#">返回主页</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="./index.html">退出登录</a></li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+
+
+        <nav aria-label="breadcrumb" style="height: 50px;line-height: 50px; background-color: #F3F3F3;">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item" style="margin-left: 20px;"><span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 18 18">
+                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
+                <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
+              </svg></span><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page"><a href="#">图书记录</a></li>
+            </ol>
+          </nav>
+        <!-- 内容主体-->
+        <div id="centent">
+            <!-- 页面主体 -->
+            <div class="col-lg-6" style="margin: 25px auto;">
+                <div class="input-group">
+                    <input type="text" class="form-control" style="border: 2px solid aqua;" placeholder="输入你想搜索的内容" id="control">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" style="border: 2px solid aqua; cursor:pointer;" id="sarch">
+                            搜索...
+                        </button>
+                    </span>
+                </div><!-- /input-group -->
+            </div>
+    <!-- On tables -->
+    <table class="table table-dark table-striped">
+        <thead style="text-align: center;">
+            <tr>
+              <th scope="col">ISBN编号</th>
+              <th scope="col">书名</th>
+              <th scope="col">出版社</th>
+              <th scope="col">作者</th>
+              <th scope="col">捐赠者</th>
+              <th scope="col">联系电话</th>
+              <th scope="col">出版日期</th>
+              <th scope="col">捐赠时间</th>
+            
+            </tr>
+          </thead>
+          <tbody style="text-align: center; background-color: #A3C2D5;">
+            
+          </tbody>
+      </table>
+      <!--按钮-->
+      <div style="margin-top: 30px;" id="pagination">
+                 
+        <ul class="pagination">
+        </ul>
+    </div>
+        </div>
+
+        <div id="centent_2">
+            <div class="container mt-3">
+                <h2>待管理员审核的图书</h2>
+                <p>Books awaiting admin review:</p>            
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>ISBN编号</th>
+                      <th>书名</th>
+                      <th>出版社</th>
+                      <th>作者</th>
+                      <th>捐赠者</th>
+                      <th>联系电话</th>
+                      <th>出版日期</th>
+                      <th>捐赠时间</th>
+                      <th>待审核</th>
+                    </tr>
+                  </thead>
+                  <tbody class="tob">
+                  <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                  </tr>
+                  </tbody>
+              </table>
+              <div style="margin-top: 30px;" id="pagination_1">
+                 
+                <ul class="pagination_1">
+                </ul>
+            </div>
+              </div>
+        </div>
+
+        <div id="centent_3">
+            <div class="container mt-3">
+                <h2>未通过的图书</h2>
+                <p>Books that failed:</p>            
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                        <th>ISBN编号</th>
+                        <th>书名</th>
+                        <th>出版社</th>
+                        <th>作者</th>
+                        <th>捐赠者</th>
+                        <th>联系电话</th>
+                        <th>出版日期</th>
+                        <th>捐赠时间</th>
+                      </tr>
+                  </thead>
+                  <tbody class="tob_1">
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                      </tr>
+                  </tbody>
+              </table>
+              <div style="margin-top: 30px;" id="pagination_2">
+                 
+                <ul class="pagination_2">
+                </ul>
+              </div>
+        </div>
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="margin-left: 100px; width: 300px;">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">修改个人信息</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label>
+                            <form id="form">
+                                <span style="font-size: 12px;">修改头像</span>
+                                <div class="center_2">
+                                    +
+                                </div>
+                                <input type="file" name="avater" style="display: none;" id="inpu">
+                                <span
+                                    style=" display: inline-block; width: 50px; height: 50px; border:0px; position: absolute; left: 90px; top: 40px;"><img
+                                         alt="" id="urls"></span>
+                        </label>
+                        <label style="margin-top: 20px;">
+                            <span>账号:</span> <input type="text" id="admininfo">
+                        </label><br>
+                        <label style="margin-top: 20px;">
+                            <span>密码:</span> <input type="password" id="adminpass">
+                        </label>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="del()">关闭</button>
+                        <button type="button" class="btn btn-primary" id="ok">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../js/public.js"></script>
+    <!-- <script src="../js/claszz.js"></script> -->
+    <script src="../js/option.js"></script>
+    </script>
+</body>
+
+</html>

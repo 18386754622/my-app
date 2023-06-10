@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+           *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #0ac2f3;
+        }
+        .box{
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: 20s;
+            color: #fff;
+        }
+        .fa{
+            width: 300px;
+            height: 300px;
+            border: 2px solid blue;
+            margin: 100px auto;
+            display: flex;
+            background-color: aqua;
+            box-shadow: 2px 2px 3px red;
+            border-radius: 10px;
+        }
+        .sun{
+            margin: auto;
+            width: 150px;
+            height: 140px;
+            border: 3px solid red;
+            background-color: burlywood;
+            border-radius: 10px;
+        }
+        #user{
+            width: 100px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+        #pass{
+            width: 100px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+        #sub{
+            width: 50px;
+            height: 30px;
+            border-radius: 4px;
+            margin: 14px;
+            margin-left: 45px;
+        }
+        #ll{
+            width: 50px;
+            margin-top: 10px;
+        }
+    </style>
+  <script src="../js/axios.min.js"></script>
+</head>
+<body>
+    <div class="fa">
+        <div class="sun">
+            <span><span>账号:</span><input type="text" id="user" value="刘耀清"></span>
+            <span><span>密码:</span><input type="password" id="pass" value="123456"></span>
+            <span><input type="text" id="ll"><span id="yzm">1234</span></span>
+            <span><span></span><input type="submit" id="sub" value="登录" onclick="del()"></span>
+        </div>
+    </div>
+    <script src="../js/admin.js"></script>
+    <script>
+        setInterval(function(){
+        let res = document.createElement('div')
+        res.innerHTML='♥'
+        res.className='box'
+
+            let obj ={
+                x:parseInt(Math.random()*window.innerWidth*2-0.5*window.innerWidth),
+                y:0,
+                size:parseInt(Math.random()*40),
+                op:Math.random()*0.5+0.5
+
+            }
+
+            res.style.fontSize=obj.size + 'px'
+            res.style.opacity=obj.op
+            res.style.transform=`translate(${obj.x}px,${obj.y}px)`
+            document.body.appendChild(res)
+
+            res.offsetHeight
+
+            let obj1 = {
+                x:parseInt(Math.random()*window.innerWidth*2-0.5*window.innerWidth),
+                y:window.innerHeight,
+
+            }
+            res.style.transform=`translate(${obj1.x}px,${obj1.y}px)`
+            //transitionend是什么
+            res.addEventListener('transitionend',function(){
+                res.remove()
+            })
+
+
+        },50)
+    </script>
+</body>
+</html>
